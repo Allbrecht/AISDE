@@ -10,8 +10,23 @@ namespace AISDE1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("hello world");
-            Console.WriteLine("udalo sie?");
+            String configuration = "configuration";
+            String destination;
+
+            FileGetter fg = new FileGetter();
+            int fileNumber = fg.readInt(configuration);
+            Console.WriteLine("podaj nazwe pliku");
+            destination = Console.ReadLine();
+            int a = 0;
+
+            FileMaker fm = new FileMaker(destination);
+            while (a < fileNumber)
+            {
+                fm.writeString(Convert.ToString(a));
+                a++;
+            }
+            fm.close();
+            Console.WriteLine("oki"); 
             Console.ReadKey();
         }
     }
