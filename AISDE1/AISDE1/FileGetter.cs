@@ -4,7 +4,7 @@ using System.IO;
 namespace AISDE1
 {
     /*
-    Plik wejściowy 'configuration' musi być w folderze bin
+    Plik wejściowy 'configuration' musi być w folderze bin/DEBUG
     */
     class FileGetter
     {
@@ -12,20 +12,17 @@ namespace AISDE1
         {
             file += ".txt";
             StreamReader sr = null;
-            
+
             //filenotfoundxeception nie obsłużony
-                sr = new StreamReader(file);
-               int firstNumber = Int32.Parse(sr.ReadLine());
-                sr.Close();
-  
-            
-         
+            sr = new StreamReader(file);
+            int firstNumber = Int32.Parse(sr.ReadLine());
+            sr.Close();
             return firstNumber;
-           
-          
-            
+
+
+
         }
-        
+
 
     }
 }

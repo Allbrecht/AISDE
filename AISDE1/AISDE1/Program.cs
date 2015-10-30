@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AISDE1
 {
@@ -28,6 +25,8 @@ namespace AISDE1
             fm.close();
             Console.WriteLine("oki"); 
             Console.ReadKey();
+        
+
         }
     }
 }
