@@ -18,17 +18,17 @@ namespace AISDE1
             String line = "";
             int index = 0;
             int tmp = 0;
-            int[] testConfiguration = new int[4]; // Tutaj iczba argumentów z pliku (TRZa to będzie zmienić?
-            while ((line = sr.ReadLine())!= null)
+            int[] testConfiguration = new int[5]; // Tutaj iczba argumentów z pliku (TRZa to będzie zmienić?
+            while ((line = sr.ReadLine()) != null)
             {
                 index = line.IndexOf(' '); // wyszukuje index pierwszej spacji w stringu
                 line = line.Substring(index);
-                
+
                 testConfiguration[tmp] = Int32.Parse(line);
                 tmp++;
                 line = "";
             }
-            
+
             sr.Close();
             return testConfiguration;
 

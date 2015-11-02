@@ -18,7 +18,8 @@ namespace AISDE1
             // co zrobić coś z elementem minimalnym, czy go gdzieś przekazać, czy coś innego?
             if (index > 0)
             {
-                myArray[0] = myArray[index - 1];
+                myArray[0] = myArray[index];
+                myArray[index] = null;
                 index--;
                 pushDown(0);
             }
@@ -51,6 +52,11 @@ namespace AISDE1
                         myArray[childIndex] = tmp;
                         i = childIndex;
                         childIndex = 2 * i + 1;
+                    }
+                    else
+                    {
+                        childIndex = index + 1;
+
                     }
 
                 }
