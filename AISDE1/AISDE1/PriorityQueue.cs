@@ -2,7 +2,7 @@
 {
     interface PriorityQueue
     {
-        void initialise();
+        void initialise(int size);
         void insert(Element element); 
         void deleteMin();
     }

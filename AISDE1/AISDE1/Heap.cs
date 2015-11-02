@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace AISDE1 
+namespace AISDE1
 {
     public class Heap : PriorityQueue
     {
         private Element[] myArray;
         private int index;
-        
+
         //konstruktor
         public Heap(int size)
         {
@@ -18,11 +18,11 @@ namespace AISDE1
             // co zrobić coś z elementem minimalnym, czy go gdzieś przekazać, czy coś innego?
             if (index > 0)
             {
-                myArray[0] = myArray[index-1];
+                myArray[0] = myArray[index - 1];
                 index--;
                 pushDown(0);
             }
-            else if(index == 0)
+            else if (index == 0)
             {
                 myArray[0] = null;
             }
@@ -36,11 +36,11 @@ namespace AISDE1
         {
             int pusher = myArray[i].getKey(); //wartość element  który zsuwamy w dół
             int childIndex = 1;
-            while(childIndex <=index)
+            while (childIndex <= index)
             {
                 if (myArray[childIndex + 1] != null)
                 {
-                    if (myArray[childIndex].getKey()> myArray[childIndex+1].getKey())//porównaj dzieci
+                    if (myArray[childIndex].getKey() > myArray[childIndex + 1].getKey())//porównaj dzieci
                     {
                         childIndex++; //index mniejszego dziecka
                     }
@@ -50,25 +50,23 @@ namespace AISDE1
                         myArray[i] = myArray[childIndex];
                         myArray[childIndex] = tmp;
                         i = childIndex;
-                        childIndex = 2*i+1;
+                        childIndex = 2 * i + 1;
                     }
-                   
-                }
-                
 
+                }
             }
-           
+
         }
 
         public void insert(Element element)//czy tutaj obsłużyć out of array exception, żeby liczyło niezmieszczone/odrzucone elementy?
         {
-            myArray[++index] = element; 
-            pushUp(index);              
+            myArray[++index] = element;
+            pushUp(index);
         }
 
         private void pushUp(int i)
         {
-            while(i > 0 && myArray[i].getKey()< myArray[i / 2].getKey())
+            while (i > 0 && myArray[i].getKey() < myArray[i / 2].getKey())
             {
                 Element tmp = myArray[i];
                 myArray[i] = myArray[i / 2];

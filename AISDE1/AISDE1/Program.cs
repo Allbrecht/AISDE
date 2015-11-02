@@ -26,6 +26,7 @@ namespace AISDE1
             int removeAndInsertArrayLength = lenghtB;
             int insertRange = rangeA;
             int removeAndInsertRange = rangeB;
+            
             Element[] elementM = new Element[insertArrayLength];
             Element[] elementN = new Element[removeAndInsertArrayLength];
             Random rnd = new Random();
@@ -44,8 +45,8 @@ namespace AISDE1
             }
 
             Stopwatch watch = new Stopwatch();
-            watch.Start();  //czy tutaj włączyć czy przy inicjalizacji randomów?
-            UnorderedList list = new UnorderedList();
+            watch.Start(); //czy tutaj włączyć czy przy inicjalizacji randomów?
+            UnorderedList list = new UnorderedList(20000);
 
             for (tmp = 0; tmp < insertArrayLength; tmp++)
             {

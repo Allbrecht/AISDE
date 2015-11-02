@@ -1,51 +1,58 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
+
 
 
 namespace AISDE1
 {
     public class UnorderedList : PriorityQueue
     {
-        public  List<Element> myList;
-        
+        private Element[] myArray;
+        private int index;
+
         //konstruktor
-        public UnorderedList()
+        public UnorderedList(int size)
         {
-            initialise();
+            initialise(size);
         }
 
         public void deleteMin()
         {
-           if(myList.Count() == 0)
+           if(index == -1)
             {
                 //do nothing
             }
             else
             {
                 int lowestKeyIndex = 0;
-                int lowestKey = myList[0].getKey();
-                for (int tmp = 0; tmp < myList.Count(); tmp++) //sprawdza wszstkich po kolei
+                int lowestKey = myArray[0].getKey();
+                for (int tmp = 1; tmp <= index; tmp++) //sprawdza wszstkich po kolei
                 {
-                   if(lowestKey>myList[tmp].getKey())
+                   if(lowestKey> myArray[tmp].getKey())
                     {
-                        lowestKey = myList[tmp].getKey();
+                        lowestKey = myArray[tmp].getKey();
                         lowestKeyIndex = tmp;
                     }
                 }
-                myList.RemoveAt(lowestKeyIndex);
-
+                myArray[lowestKeyIndex] = myArray[index];
+                myArray[index] = null;
+                index--;
             }
         }
 
-        public void initialise()
+        public void initialise(int size)
         {
-            myList = new List<Element>();
+            myArray = new Element[size];
+            index = -1;
         }
 
 
         public void insert(Element element)
         {
-            myList.Add(element);
+            myArray[++index]=element;
+        }
+        public int getKey(int index)
+        {
+            return myArray[index].getKey();
         }
     }
 }
