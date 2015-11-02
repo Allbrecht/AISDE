@@ -22,7 +22,7 @@ namespace AISDE.test
             list.insert(element3);
             list.deleteMin();
             //Assert.Equals(null, list.myList[3]); 
-            Assert.AreEqual(3, list.myList[2].key);
+            Assert.AreEqual(3, list.myList[2].getKey());
         }
     }
 }

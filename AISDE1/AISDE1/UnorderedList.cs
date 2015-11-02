@@ -23,12 +23,12 @@ namespace AISDE1
             else
             {
                 int lowestKeyIndex = 0;
-                int lowestKey = myList[0].key;
+                int lowestKey = myList[0].getKey();
                 for (int tmp = 0; tmp < myList.Count(); tmp++) //sprawdza wszstkich po kolei
                 {
-                   if(lowestKey>myList[tmp].key)
+                   if(lowestKey>myList[tmp].getKey())
                     {
-                        lowestKey = myList[tmp].key;
+                        lowestKey = myList[tmp].getKey();
                         lowestKeyIndex = tmp;
                     }
                 }

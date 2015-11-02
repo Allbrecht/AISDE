@@ -12,7 +12,7 @@ namespace AISDE1
             int[] testVariables = new int[4];
 
             FileGetter fg = new FileGetter();
-            testVariables =  fg.readInt(testConfiguration);
+            testVariables = fg.readInt(testConfiguration);
 
             FileMaker fm = new FileMaker(testOutput);
             fm.writeString(testList(testVariables[0], testVariables[1], testVariables[2], testVariables[3]));
