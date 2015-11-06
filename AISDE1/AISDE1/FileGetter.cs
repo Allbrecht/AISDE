@@ -11,10 +11,16 @@ namespace AISDE1
         public int[] readInt(String file)
         {
             file += ".txt";
-            StreamReader sr = null;
+
+
 
             //filenotfoundxeception nie obsłużony
-            sr = new StreamReader(file);
+            string dir = Path.GetDirectoryName(
+            System.Reflection.Assembly.GetExecutingAssembly().Location);
+            dir = Directory.GetParent(dir).FullName;
+            dir = Directory.GetParent(dir).FullName; // dwa razy bo cofamy się o dwa foldery do tyłu
+            file = dir + @"\config\" + file;
+            StreamReader sr = new StreamReader(file);
             String line = "";
             int index = 0;
             int tmp = 0;

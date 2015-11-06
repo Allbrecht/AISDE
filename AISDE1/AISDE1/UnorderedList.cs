@@ -1,8 +1,4 @@
-﻿
-
-
-
-namespace AISDE1
+﻿namespace AISDE1
 {
     public class UnorderedList : PriorityQueue
     {

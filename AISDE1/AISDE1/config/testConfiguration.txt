@@ -1,0 +1,5 @@
+insertArrayLength 10000 
+removeAndInsertArrayLength 10000 
+insertRange 100 
+removeAndInsertRange 100 
+arraySize 20000
