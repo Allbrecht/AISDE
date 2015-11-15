@@ -36,7 +36,7 @@ namespace AISDE1
         private void pushDown(int i)
         {
             int pusher = myArray[i].getKey(); //wartość element  który zsuwamy w dół
-            int childIndex = 1;
+            int childIndex = 2 * i + 1;
             while (childIndex <= index)
             {
                 if (myArray[childIndex + 1] != null)
@@ -45,23 +45,21 @@ namespace AISDE1
                     {
                         childIndex++; //index mniejszego dziecka
                     }
-                    if (pusher > myArray[childIndex].getKey())//zamień jeśli diecko mniejsze
-                    {
-                        Element tmp = myArray[i];
-                        myArray[i] = myArray[childIndex];
-                        myArray[childIndex] = tmp;
-                        i = childIndex;
-                        childIndex = 2 * i + 1;
-                    }
-                    else
-                    {
-                        childIndex = index + 1;
-
-                    }
+                }
+                if (pusher > myArray[childIndex].getKey())//zamień jeśli diecko mniejsze
+                {
+                    Element tmp = myArray[i];
+                    myArray[i] = myArray[childIndex];
+                    myArray[childIndex] = tmp;
+                    i = childIndex;
+                    childIndex = 2 * i + 1;
+                }
+                else
+                {
+                    childIndex = index + 1;
 
                 }
             }
-
         }
 
         public void insert(Element element)//czy tutaj obsłużyć out of array exception, żeby liczyło niezmieszczone/odrzucone elementy?
@@ -72,12 +70,12 @@ namespace AISDE1
 
         private void pushUp(int i)
         {
-            while (i > 0 && myArray[i].getKey() < myArray[i / 2].getKey())
+            while (i > 0 && myArray[i].getKey() < myArray[(i-1) / 2].getKey())
             {
                 Element tmp = myArray[i];
-                myArray[i] = myArray[i / 2];
-                myArray[i / 2] = tmp;
-                i /= 2;
+                myArray[i] = myArray[((i-1) / 2)];
+                myArray[(i-1) / 2] = tmp;
+                i = (i - 1) / 2;
             }
         }
 
@@ -85,7 +83,7 @@ namespace AISDE1
         {
             myArray = new Element[size];
             index = -1; // żeby zaczynać wypełnianie array od zerowego miejsca 
-
+ 
         }
 
         public void initialise()
