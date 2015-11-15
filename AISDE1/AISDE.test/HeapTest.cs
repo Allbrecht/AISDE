@@ -42,8 +42,23 @@ namespace AISDE.test
             heap.insert(element4);
             heap.insert(element3);
             heap.insert(element0);
+            Assert.AreEqual(0, heap.getKey(0));
+            Assert.AreEqual(3, heap.getKey(1));
+            Assert.AreEqual(1, heap.getKey(2));
+            Assert.AreEqual(4, heap.getKey(3));
+            Assert.AreEqual(4, heap.getKey(4));
+            Assert.AreEqual(3, heap.getKey(5));
+            Assert.AreEqual(2, heap.getKey(6));
+
             heap.deleteMin();
             Assert.AreEqual(1, heap.getKey(0));
+            Assert.AreEqual(3, heap.getKey(1));
+            Assert.AreEqual(2, heap.getKey(2));
+            Assert.AreEqual(4, heap.getKey(3));
+            Assert.AreEqual(4, heap.getKey(4));
+            Assert.AreEqual(3, heap.getKey(5));
+            Assert.AreEqual(null, heap.getKey(6));
+
             //Assert.AreEqual(null, heap.getKey(7));
         }
     }
