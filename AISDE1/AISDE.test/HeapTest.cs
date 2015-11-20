@@ -57,9 +57,7 @@ namespace AISDE.test
             Assert.AreEqual(4, heap.getKey(3));
             Assert.AreEqual(4, heap.getKey(4));
             Assert.AreEqual(3, heap.getKey(5));
-            Assert.AreEqual(null, heap.getKey(6));
-
-            //Assert.AreEqual(null, heap.getKey(7));
+            
         }
     }
 }
