@@ -12,8 +12,6 @@ namespace AISDE1
         {
             file += ".txt";
 
-
-
             //filenotfoundxeception nie obsłużony
             string dir = Path.GetDirectoryName(
             System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -24,7 +22,7 @@ namespace AISDE1
             String line = "";
             int index = 0;
             int tmp = 0;
-            int[] testConfiguration = new int[5]; // Tutaj iczba argumentów z pliku (TRZa to będzie zmienić?
+            int[] testConfiguration = new int[15]; // Tutaj iczba argumentów z pliku (TRZa to będzie zmienić?
             while ((line = sr.ReadLine()) != null)
             {
                 index = line.IndexOf(' '); // wyszukuje index pierwszej spacji w stringu
@@ -38,10 +36,37 @@ namespace AISDE1
             sr.Close();
             return testConfiguration;
 
-
-
         }
 
+        public double[] readDouble(String file)
+        {
+            file += ".txt";
+
+            //filenotfoundxeception nie obsłużony
+            string dir = Path.GetDirectoryName(
+            System.Reflection.Assembly.GetExecutingAssembly().Location);
+            dir = Directory.GetParent(dir).FullName;
+            dir = Directory.GetParent(dir).FullName; // dwa razy bo cofamy się o dwa foldery do tyłu
+            file = dir + @"\config\" + file;
+            StreamReader sr = new StreamReader(file);
+            string line = "";
+            int index = 0;
+            int tmp = 0;
+            double[] config = new double[15]; // Tutaj iczba argumentów z pliku (TRZa to będzie zmienić?
+            while ((line = sr.ReadLine()) != null)
+            {
+                index = line.IndexOf(' '); // wyszukuje index pierwszej spacji w stringu
+                line = line.Substring(index);
+
+                config[tmp] = Double.Parse(line);
+                tmp++;
+                line = "";
+            }
+
+            sr.Close();
+            return config;
+
+        }
 
     }
 }

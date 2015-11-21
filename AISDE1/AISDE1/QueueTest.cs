@@ -11,8 +11,8 @@ namespace AISDE1
         public  QueueTest()
         {
             Console.WriteLine("Czekaj na wynik");
-            String testConfiguration = "testConfiguration";
-            String testOutput = "testOutput";
+            string testConfiguration = "testConfiguration";
+            string testOutput = "testOutput";
             int[] testVariables = new int[4];
 
             FileGetter fg = new FileGetter();
