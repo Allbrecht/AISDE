@@ -86,13 +86,18 @@ namespace AISDE1
  
         }
 
-        public void initialise()
-        {
-            throw new NotImplementedException();
-        }
+       
         public int getKey(int index)
         {
             return myArray[index].getKey();
+        }
+        public int getNumberOfElements()
+        {
+            return index; // +-1?
+        }
+        public Element getLowestElement()
+        {
+            return myArray[0];
         }
     }
 }

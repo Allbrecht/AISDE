@@ -21,7 +21,7 @@
             {
                 int lowestKeyIndex = 0;
                 int lowestKey = myArray[0].getKey();
-                for (int tmp = 1; tmp <= index; tmp++) //sprawdza wszstkich po kolei
+                for (int tmp = 1; tmp <= index; tmp++) //sprawdza wszystkich po kolei
                 {
                    if(lowestKey> myArray[tmp].getKey())
                     {

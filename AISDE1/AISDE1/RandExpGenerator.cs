@@ -2,7 +2,7 @@
 
 namespace AISDE1
 {
-    public class RandExpGenerator //with singleton Pattern
+    public class RandExpGenerator //jednak bez singletona
     {
         //tą klase tworzy się przez getInstance(param) 
 
@@ -10,22 +10,22 @@ namespace AISDE1
         private double lambda;
         private static RandExpGenerator randExpGenerator = null;
 
-        private RandExpGenerator() { } // koniecznie private
-        private RandExpGenerator(double lmbd) // koniecznie private
+        private RandExpGenerator() { } 
+        public RandExpGenerator(double lmbd) 
         {
             rnd = new Random();
             lambda = lmbd;
         }
 
-        public static RandExpGenerator getInstance(double lmbd)
+       /* public static RandExpGenerator getInstance(double lmbd)
         {
-            if (null == randExpGenerator)
+            if (null == randExpGenerator) //yoda 
             {
                 randExpGenerator = new RandExpGenerator(lmbd);
             }
             return randExpGenerator;
 
-        }
+        }*/
         public double getExpRandom()
         {
             double y = rnd.NextDouble();

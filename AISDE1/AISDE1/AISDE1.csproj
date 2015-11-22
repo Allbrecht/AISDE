@@ -54,6 +54,7 @@
     <Compile Include="QueueTest.cs" />
     <Compile Include="RandExpGenerator.cs" />
     <Compile Include="Simulation.cs" />
+    <Compile Include="TelephoneExchange.cs" />
     <Compile Include="UnorderedList.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="configuration.txt" />
+    <Content Include="simulationConfiguration.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
