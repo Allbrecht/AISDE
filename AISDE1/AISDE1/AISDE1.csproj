@@ -45,16 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Element.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="FileGetter.cs" />
     <Compile Include="FileMaker.cs" />
     <Compile Include="Heap.cs" />
+    <Compile Include="EventQueue.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueTest.cs" />
     <Compile Include="RandExpGenerator.cs" />
     <Compile Include="Simulation.cs" />
-    <Compile Include="TelephoneExchange.cs" />
     <Compile Include="UnorderedList.cs" />
   </ItemGroup>
   <ItemGroup>

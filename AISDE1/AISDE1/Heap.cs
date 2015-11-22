@@ -93,11 +93,12 @@ namespace AISDE1
         }
         public int getNumberOfElements()
         {
-            return index; // +-1?
+            return index+1; 
         }
-        public Element getLowestElement()
+        public Element getLowest()
         {
             return myArray[0];
         }
+
     }
 }

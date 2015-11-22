@@ -12,19 +12,17 @@ namespace AISDE1
 
         // konfiguracyjne
         private static int numberOfVariables = 15;
+        private static int numberOfOuts = 15;
         private double[] simVariables = new double[numberOfVariables];
-
-        private int queueLength;
+        private double[] simulationOutputs = new double[numberOfOuts];
+        private int queueSize;
         private int channelSize;
         private double lambdaTelLength; //długość rozmowy
         private double lambdaDistanceBetweenConnetions; //jak często przychodzą połączenia
         private int streamSize;
 
-        //symulacyjne
-        private int currentTime = 0;
-        private int totalTime = 60;
-        private int inService= 0;
-        private int inQueue= 0;
+
+
 
         public Simulation()
         {
@@ -36,45 +34,104 @@ namespace AISDE1
             setConfiguration(simVariables);
 
             // symulacja właściwa
-            
-            doSimulation();
+
+            simulationOutputs = doSimulation();
 
             //zapisanie wyników
-            makeSimulationOutput(simVariables);
+            makeSimulationOutput(simulationOutputs);
         }
 
         private void setConfiguration(double[] config)
         {
-            queueLength = Convert.ToInt32(simVariables[0]);
+            queueSize = Convert.ToInt32(simVariables[0]);
             channelSize = Convert.ToInt32(simVariables[1]);
             lambdaTelLength = simVariables[2];
             lambdaDistanceBetweenConnetions = simVariables[3];
             streamSize = Convert.ToInt32(simVariables[4]);
 
         }
-        private void makeSimulationOutput(double[] simVariables/*, int[] heapOuts, int[] listOuts*/)
+        private void makeSimulationOutput(double[] simVariables)
         {
             FileMaker fm = new FileMaker(simOutput);
-            fm.writeString("lambdaTelLength " + simVariables[0]);
+            fm.writeString("lostElements " + simVariables[0]);
 
 
             fm.close();
         }
 
-        private void doSimulation()
+        private double[] doSimulation() //same eventy
         {
-            TelephoneExchange telExchange = new TelephoneExchange(queueLength, channelSize);
+            
             RandExpGenerator randExpGeneratorLength = new RandExpGenerator(lambdaTelLength);
             RandExpGenerator randExpGeneratorDistance = new RandExpGenerator(lambdaDistanceBetweenConnetions);
+            EventQueue evQueue = new EventQueue();
+            Heap heap = new Heap(queueSize);
 
-            //while (currentTime < totalTime)
-            //{
+            double currentTime = 0;
+            double totalTime = 60;
+            int busyChannels = 0;
+            int inService = 0;
+            int inQueue = 0;
+            int lostElements = 0;
+            int doubleToInt = 100000;
+
+            evQueue.addEvent(EventType.Arrival, currentTime + randExpGeneratorDistance.getExpRandom());
+
+            while (currentTime < totalTime)
+            {
+                Event ev = new Event();
+                ev = evQueue.getEvent();
+                currentTime = ev.eventTime;
+                Element el = new Element(Convert.ToInt32((currentTime * doubleToInt)-0.5), streamSize);
+
+                switch (ev.eventType)
+                {
+                    case EventType.Arrival:
+                        if (busyChannels + el.getStreamSize() < channelSize)
+                        {
+                            //zajmij kanały
+                            inService++;
+                            busyChannels += el.getStreamSize();
+                            evQueue.addEvent(EventType.Departure, currentTime + randExpGeneratorLength.getExpRandom());
+                        }
+                        else if (heap.getNumberOfElements() < queueSize)
+                        {
+                            //dodaj do kolejki
+                            inQueue++;
+                            heap.insert(el);
+                        }
+                        else
+                        {
+                            lostElements++;
+                        }
+
+                        evQueue.addEvent(EventType.Arrival, currentTime + randExpGeneratorDistance.getExpRandom());
+                        break;
+                    case EventType.Departure:
+                        inService--;
+                        if (inQueue > 0)
+                        {
+                            Element element = heap.getLowest();
+                            if (busyChannels + element.getStreamSize() < channelSize)
+                            {
+                                //zajmij kanały
+                                inQueue--;
+                                heap.deleteMin();
+                                inService++;
+                                busyChannels += element.getStreamSize();
+                                evQueue.addEvent(EventType.Departure, currentTime + randExpGeneratorLength.getExpRandom());
+                            }
+                        }
+                        break;
+                }
 
 
+            }
+            //przygotuj dane wyjściowe
+            double[] outs = new double[numberOfOuts];
+            outs[0] = lostElements;
 
-
-               
-            //}
+            return outs;
         }
     }
 }

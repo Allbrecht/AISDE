@@ -4,13 +4,12 @@ namespace AISDE1
 {
     public class RandExpGenerator //jednak bez singletona
     {
-        //tą klase tworzy się przez getInstance(param) 
 
         private Random rnd;
         private double lambda;
-        private static RandExpGenerator randExpGenerator = null;
+        //private static RandExpGenerator randExpGenerator = null;
 
-        private RandExpGenerator() { } 
+        //private RandExpGenerator() { } 
         public RandExpGenerator(double lmbd) 
         {
             rnd = new Random();
