@@ -39,6 +39,7 @@ namespace AISDE1
 
             //zapisanie wyników
             makeSimulationOutput(simulationOutputsHeap, simulationOutputsList);
+            Console.ReadKey();
         }
 
         private void setConfiguration(double[] config)
@@ -86,11 +87,13 @@ namespace AISDE1
             for (int tmp = 0; tmp < 2; tmp++)
             {
                 evQueue.addEvent(EventType.Arrival, currentTime + streams[tmp].getRandDistance(), streams[tmp].getStreamSize(), tmp);
+                Console.WriteLine("Dodano zdarzenieArrive o czasie {0}+ kawałek, Stream {1}", currentTime,tmp);
             }
             while (currentTime < totalTime)
             {
                 Event ev = new Event();
                 ev = evQueue.getEvent();
+                Console.WriteLine("zdarzenie: {0} o czasie {1}+ kawałek Stream {2}",ev.eventType, currentTime + streams[ev.numberofStream].getRandLength(), ev.numberofStream);
                 currentTime = ev.eventTime;
                 Element el = new Element(Convert.ToInt32((currentTime * doubleToInt) - 0.5), ev.streamSize);
 

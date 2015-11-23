@@ -22,7 +22,7 @@ namespace AISDE1
                 
 
             list.Add(myEvent);
-            list.OrderBy(MyEvent => MyEvent.eventTime).ToList();
+            list = list.OrderBy(MyEvent => MyEvent.eventTime).ToList();
         }
         public Event getEvent()
         {
