@@ -39,6 +39,7 @@ namespace AISDE1
 
             //zapisanie wyników
             makeSimulationOutput(simulationOutputsHeap, simulationOutputsList);
+            Console.WriteLine("wcisnij klawisz");
             Console.ReadKey();
         }
 
@@ -51,8 +52,34 @@ namespace AISDE1
         private void makeSimulationOutput(double[] simVariablesHeap, double[] simVariablesList)
         {
             FileMaker fm = new FileMaker(simOutput);
-            fm.writeString("lostElementsHeap " + simVariablesHeap[0]);
-            fm.writeString("lostElementsList " + simVariablesList[0]);
+            fm.writeString("++++HEAP++++");
+            
+            fm.writeString("ilosc utraconych elementów: " + simVariablesHeap[0]);
+            fm.writeString("srednia zajętość kanału: " + simVariablesHeap[1]);
+            fm.writeString("srednia zajetosc kolejki: " + simVariablesHeap[2]);
+            fm.writeString("prawdopodobieństwo utraty pakietu str1: " + simVariablesHeap[3]);
+            fm.writeString("sredni czas przebywania w systemie str1: " + simVariablesHeap[4]);
+            fm.writeString("prawdopodobieństwo utraty pakietu str2: " + simVariablesHeap[5]);
+            fm.writeString("sredni czas przebywania w systemie str2: " + simVariablesHeap[6]);
+            fm.writeString("utracone str1: " + simVariablesHeap[7]);
+            fm.writeString("obsluzone str2: " + simVariablesHeap[8]);
+            fm.writeString("utracone str2: " + simVariablesHeap[9]);
+            fm.writeString("obsluzone str2: " + simVariablesHeap[10]);
+
+            fm.writeString("++++LIST++++");
+            fm.writeString("ilosc utraconych elementów: " + simVariablesList[0]);
+            fm.writeString("srednia zajętość kanału: " + simVariablesList[1]);
+            fm.writeString("srednia zajetosc kolejki: " + simVariablesList[2]);
+            fm.writeString("prawdopodobieństwo utraty pakietu str1: " + simVariablesList[3]);
+            fm.writeString("sredni czas przebywania w systemie str1: " + simVariablesList[4]);
+            fm.writeString("prawdopodobieństwo utraty pakietu str2: " + simVariablesList[5]);
+            fm.writeString("sredni czas przebywania w systemie str2: " + simVariablesList[6]);
+            fm.writeString("utracone str1: " + simVariablesList[7]);
+            fm.writeString("obsluzone str2: " + simVariablesList[8]);
+            fm.writeString("utracone str2: " + simVariablesList[9]);
+            fm.writeString("obsluzone str2: " + simVariablesList[10]);
+
+
 
             fm.close();
         }
@@ -69,31 +96,42 @@ namespace AISDE1
             EventQueue evQueue = new EventQueue();
             if (1 == whichQueue)
             {
-                 priorityQueue = new Heap(queueSize);
+                priorityQueue = new Heap(queueSize);
             }
             else
             {
-                 priorityQueue = new UnorderedList(queueSize);
+                priorityQueue = new UnorderedList(queueSize);
             }
 
             double currentTime = 0;
-            double totalTime = 160;
+            double totalTime = 1600;
             int busyChannels = 0;
             int inService = 0;
             int inQueue = 0;
             int lostElements = 0;
             int doubleToInt = 100000;
 
+            //Zajętość systemu:
+            double averageChannelOccupancySum = 0;
+            double averageQueueOccupancySum = 0;
+            double inSystemTime=0;
+
             for (int tmp = 0; tmp < 2; tmp++)
             {
-                evQueue.addEvent(EventType.Arrival, currentTime + streams[tmp].getRandDistance(), streams[tmp].getStreamSize(), tmp);
+                evQueue.addEvent(EventType.Arrival, currentTime + streams[tmp].getRandDistance(), streams[tmp].getStreamSize(), tmp, currentTime);
             }
             while (currentTime < totalTime)
             {
                 Event ev = new Event();
                 ev = evQueue.getEvent();
-                Console.WriteLine("zdarzenie: {0} o czasie {1}, Stream {2}",ev.eventType, currentTime , ev.numberofStream);
+               Console.WriteLine("zdarzenie: {0} o czasie {1}, Stream {2}",ev.eventType, currentTime , ev.numberOfStream);
+                inSystemTime = ev.eventTime -currentTime;//czas od ostatniego zdarzenia
+
                 currentTime = ev.eventTime;
+
+                averageChannelOccupancySum += inSystemTime * busyChannels / channelSize;
+                averageQueueOccupancySum += inSystemTime * inQueue / queueSize;
+                
                 Element el = new Element(Convert.ToInt32((currentTime * doubleToInt) - 0.5), ev.streamSize);
 
                 switch (ev.eventType)
@@ -104,9 +142,9 @@ namespace AISDE1
                             //zajmij kanały
                             inService++;
                             busyChannels += el.getStreamSize();
-                            evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberofStream].getRandLength(), el.getStreamSize(), ev.numberofStream);
+                            evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberOfStream].getRandLength(), el.getStreamSize(), ev.numberOfStream, currentTime);
                         }
-                        else if (priorityQueue.getNumberOfElements() < queueSize-1)
+                        else if (priorityQueue.getNumberOfElements() < queueSize - 1)
                         {
                             //dodaj do kolejki
                             inQueue++;
@@ -115,13 +153,19 @@ namespace AISDE1
                         else
                         {
                             lostElements++;
+                            streams[ev.numberOfStream].lost++;
                         }
 
-                        evQueue.addEvent(EventType.Arrival, currentTime + streams[ev.numberofStream].getRandDistance(),ev.streamSize, ev.numberofStream);
+                        evQueue.addEvent(EventType.Arrival, currentTime + streams[ev.numberOfStream].getRandDistance(), ev.streamSize, ev.numberOfStream, currentTime);
                         break;
                     case EventType.Departure:
                         inService--;
                         busyChannels -= ev.streamSize;
+
+                        //srednie
+                        streams[ev.numberOfStream].served++;
+                        streams[ev.numberOfStream].inSystemTime += currentTime - ev.arrivalTime;
+
                         if (inQueue > 0)
                         {
                             Element element = priorityQueue.getLowest();
@@ -132,7 +176,7 @@ namespace AISDE1
                                 priorityQueue.deleteMin();
                                 inService++;
                                 busyChannels += element.getStreamSize();
-                                evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberofStream].getRandLength(), el.getStreamSize(), ev.numberofStream);
+                                evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberOfStream].getRandLength(), el.getStreamSize(), ev.numberOfStream, currentTime);
                             }
                         }
                         break;
@@ -140,9 +184,21 @@ namespace AISDE1
 
 
             }
+
             //przygotuj dane wyjściowe
             double[] outs = new double[numberOfOuts];
             outs[0] = lostElements;
+            outs[1] = averageChannelOccupancySum / totalTime; //srednia zajętość kanału
+            outs[2] = averageQueueOccupancySum / totalTime;//srednia zajetosc kolejki
+            outs[3] = streams[0].lost / streams[1].served;//prawdopodobieństwo utraty pakietu
+            outs[4] = streams[0].inSystemTime / totalTime; // sredni czas przebywania w systemie
+            outs[5] = streams[1].lost / streams[1].served;
+            outs[6] = streams[1].inSystemTime / totalTime; // sredni czas przebywania w systemie
+            outs[7] = streams[0].lost;
+            outs[8] = streams[0].served;
+            outs[9] = streams[1].lost;
+            outs[10] = streams[1].served;
+
 
             return outs;
         }

@@ -12,14 +12,15 @@ namespace AISDE1
             list = new List<Event>();
         }
 
-        public void addEvent(EventType evType, double time, int streamSize, int numberOfStream)
+        public void addEvent(EventType evType, double time, int streamSize, int numberOfStream, double arrivalTime)
         {
             Event myEvent = new Event();
             myEvent.eventType = evType;
             myEvent.eventTime = time;
             myEvent.streamSize = streamSize;
-            myEvent.numberofStream = numberOfStream;
-                
+            myEvent.numberOfStream = numberOfStream;
+            myEvent.arrivalTime = arrivalTime;
+
 
             list.Add(myEvent);
             list = list.OrderBy(MyEvent => MyEvent.eventTime).ToList();
