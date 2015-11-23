@@ -15,6 +15,10 @@ namespace AISDE1
         private RandExpGenerator randExpGeneratorLength;
         private RandExpGenerator randExpGeneratorDistance;
 
+        public int lost;
+        public int served;
+        public double inSystemTime;
+
         public Stream(int f_streamSize, double f_lambdaTelLength, double f_lambdaDistanceBetweenConnetions)
         {
             streamSize = f_streamSize;
@@ -22,6 +26,9 @@ namespace AISDE1
             randExpGeneratorDistance = new RandExpGenerator(f_lambdaDistanceBetweenConnetions);
             Interlocked.Increment(ref streamNumber);
             streamName = streamNumber;
+            lost = 0;
+            served = 0;
+            inSystemTime = 0;
         }
         public double getRandLength()
         {
