@@ -19,24 +19,24 @@ namespace AISDE1
             testVariables = fg.readInt(testConfiguration);
 
             FileMaker fm = new FileMaker(testOutput);
-            for (int i = 0; i < 50; i++)
-            {
+            //for (int i = 0; i < 50; i++)
+            //}
                 string list = testList(testVariables[0], testVariables[1], testVariables[2], testVariables[3], testVariables[4]);
                 string heap = testHeap(testVariables[0], testVariables[1], testVariables[2], testVariables[3], testVariables[4]);
 
-                //fm.writeString("List time: " + list);
-                //fm.writeString("Heap time: " + heap);
-                fm.writeString(testVariables[0] + " " + list + " " + heap);
+                fm.writeString("List time: " + list);
+                fm.writeString("Heap time: " + heap);
+                //fm.writeString(testVariables[0] + " " + list + " " + heap);
                 
-                testVariables[0] += 200;
-                Console.Write(i);
-            }
+                //testVariables[0] += 200;
+                //Console.Write(i);
+            //}
             
             
             fm.close();
 
-            //Console.WriteLine("List " + list);
-            //Console.WriteLine("Heap " + heap);
+            Console.WriteLine("List " + list);
+            Console.WriteLine("Heap " + heap);
             Console.ReadKey();
         }
         
@@ -83,7 +83,7 @@ namespace AISDE1
             }
             watch.Stop();
 
-            return watch.ElapsedMilliseconds.ToString();
+            return watch.Elapsed.ToString(); //watch.ElapsedMilliseconds.ToString();
         }
         private String testHeap(int lengthA, int lenghtB, int rangeA, int rangeB, int size)
         {
@@ -127,7 +127,7 @@ namespace AISDE1
             }
             watch.Stop();
 
-            return watch.ElapsedMilliseconds.ToString();
+            return watch.Elapsed.ToString(); //watch.ElapsedMilliseconds.ToString();
         }
     }
 }
