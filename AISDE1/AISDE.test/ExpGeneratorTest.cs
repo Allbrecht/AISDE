@@ -10,7 +10,7 @@ namespace AISDE.test
         [TestMethod]
         public void expTest()
         {
-            RandExpGenerator regen = RandExpGenerator.getInstance(0.5);
+            RandExpGenerator regen =new RandExpGenerator(1.2);
             int[] licznik = new int[10];
             foreach (int el in licznik)
             {

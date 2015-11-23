@@ -14,12 +14,11 @@ namespace AISDE1
         private static int numberOfVariables = 15;
         private static int numberOfOuts = 15;
         private double[] simVariables = new double[numberOfVariables];
-        private double[] simulationOutputs = new double[numberOfOuts];
+        private double[] simulationOutputsHeap = new double[numberOfOuts];
+        private double[] simulationOutputsList = new double[numberOfOuts];
         private int queueSize;
         private int channelSize;
-        private double lambdaTelLength; //długość rozmowy
-        private double lambdaDistanceBetweenConnetions; //jak często przychodzą połączenia
-        private int streamSize;
+        private int numberOfStreams = 5;
 
 
 
@@ -35,54 +34,65 @@ namespace AISDE1
 
             // symulacja właściwa
 
-            simulationOutputs = doSimulation();
+            simulationOutputsHeap = doSimulation(1);
+            simulationOutputsList = doSimulation(2);
 
             //zapisanie wyników
-            makeSimulationOutput(simulationOutputs);
+            makeSimulationOutput(simulationOutputsHeap, simulationOutputsList);
         }
 
         private void setConfiguration(double[] config)
         {
             queueSize = Convert.ToInt32(simVariables[0]);
             channelSize = Convert.ToInt32(simVariables[1]);
-            lambdaTelLength = simVariables[2];
-            lambdaDistanceBetweenConnetions = simVariables[3];
-            streamSize = Convert.ToInt32(simVariables[4]);
 
         }
-        private void makeSimulationOutput(double[] simVariables)
+        private void makeSimulationOutput(double[] simVariablesHeap, double[] simVariablesList)
         {
             FileMaker fm = new FileMaker(simOutput);
-            fm.writeString("lostElements " + simVariables[0]);
-
+            fm.writeString("lostElementsHeap " + simVariablesHeap[0]);
+            fm.writeString("lostElementsList " + simVariablesList[0]);
 
             fm.close();
         }
 
-        private double[] doSimulation() //same eventy
+        private double[] doSimulation(int whichQueue) //same eventy
         {
-            
-            RandExpGenerator randExpGeneratorLength = new RandExpGenerator(lambdaTelLength);
-            RandExpGenerator randExpGeneratorDistance = new RandExpGenerator(lambdaDistanceBetweenConnetions);
+            Stream stream1 = new Stream(Convert.ToInt32(simVariables[4]), simVariables[2], simVariables[3]);
+            Stream stream2 = new Stream(Convert.ToInt32(simVariables[7]), simVariables[5], simVariables[6]);
+            Stream[] streams = new Stream[numberOfStreams];
+            streams[0] = stream1;
+            streams[1] = stream2;
+
+            PriorityQueue priorityQueue;
             EventQueue evQueue = new EventQueue();
-            Heap heap = new Heap(queueSize);
+            if (1 == whichQueue)
+            {
+                 priorityQueue = new Heap(queueSize);
+            }
+            else
+            {
+                 priorityQueue = new UnorderedList(queueSize);
+            }
 
             double currentTime = 0;
-            double totalTime = 60;
+            double totalTime = 160;
             int busyChannels = 0;
             int inService = 0;
             int inQueue = 0;
             int lostElements = 0;
             int doubleToInt = 100000;
 
-            evQueue.addEvent(EventType.Arrival, currentTime + randExpGeneratorDistance.getExpRandom());
-
+            for (int tmp = 0; tmp < 2; tmp++)
+            {
+                evQueue.addEvent(EventType.Arrival, currentTime + streams[tmp].getRandDistance(), streams[tmp].getStreamSize(), tmp);
+            }
             while (currentTime < totalTime)
             {
                 Event ev = new Event();
                 ev = evQueue.getEvent();
                 currentTime = ev.eventTime;
-                Element el = new Element(Convert.ToInt32((currentTime * doubleToInt)-0.5), streamSize);
+                Element el = new Element(Convert.ToInt32((currentTime * doubleToInt) - 0.5), ev.streamSize);
 
                 switch (ev.eventType)
                 {
@@ -92,34 +102,35 @@ namespace AISDE1
                             //zajmij kanały
                             inService++;
                             busyChannels += el.getStreamSize();
-                            evQueue.addEvent(EventType.Departure, currentTime + randExpGeneratorLength.getExpRandom());
+                            evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberofStream].getRandLength(), el.getStreamSize(), ev.numberofStream);
                         }
-                        else if (heap.getNumberOfElements() < queueSize)
+                        else if (priorityQueue.getNumberOfElements() < queueSize)
                         {
                             //dodaj do kolejki
                             inQueue++;
-                            heap.insert(el);
+                            priorityQueue.insert(el);
                         }
                         else
                         {
                             lostElements++;
                         }
 
-                        evQueue.addEvent(EventType.Arrival, currentTime + randExpGeneratorDistance.getExpRandom());
+                        evQueue.addEvent(EventType.Arrival, currentTime + streams[ev.numberofStream].getRandDistance(),ev.streamSize, ev.numberofStream);
                         break;
                     case EventType.Departure:
                         inService--;
+                        busyChannels -= ev.streamSize;
                         if (inQueue > 0)
                         {
-                            Element element = heap.getLowest();
+                            Element element = priorityQueue.getLowest();
                             if (busyChannels + element.getStreamSize() < channelSize)
                             {
                                 //zajmij kanały
                                 inQueue--;
-                                heap.deleteMin();
+                                priorityQueue.deleteMin();
                                 inService++;
                                 busyChannels += element.getStreamSize();
-                                evQueue.addEvent(EventType.Departure, currentTime + randExpGeneratorLength.getExpRandom());
+                                evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberofStream].getRandLength(), el.getStreamSize(), ev.numberofStream);
                             }
                         }
                         break;

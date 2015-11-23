@@ -1,4 +1,6 @@
-﻿namespace AISDE1
+﻿using System;
+
+namespace AISDE1
 {
     public class UnorderedList : PriorityQueue
     {
@@ -49,6 +51,16 @@
         public int getKey(int index)
         {
             return myArray[index].getKey();
+        }
+
+        public int getNumberOfElements()
+        {
+            return index + 1;
+        }
+
+        public Element getLowest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

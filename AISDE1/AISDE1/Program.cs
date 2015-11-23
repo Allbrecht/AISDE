@@ -7,7 +7,7 @@ namespace AISDE1
     {
         static void Main(string[] args)
         {
-            //QueueTest qt = new QueueTest();
+            QueueTest qt = new QueueTest();
             Simulation simulation = new Simulation();
 
 
