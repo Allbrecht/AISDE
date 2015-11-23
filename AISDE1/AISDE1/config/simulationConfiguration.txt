@@ -1,5 +1,5 @@
 priorityQueueLength 5
-numberOfChannels 10
+numberOfChannels 100
 lambdaTelLength 1,34
 lambdaDistanceBetweenConnetions 1,34 
 streamSize 30 
