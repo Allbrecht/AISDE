@@ -87,13 +87,12 @@ namespace AISDE1
             for (int tmp = 0; tmp < 2; tmp++)
             {
                 evQueue.addEvent(EventType.Arrival, currentTime + streams[tmp].getRandDistance(), streams[tmp].getStreamSize(), tmp);
-                Console.WriteLine("Dodano zdarzenieArrive o czasie {0}+ kawałek, Stream {1}", currentTime,tmp);
             }
             while (currentTime < totalTime)
             {
                 Event ev = new Event();
                 ev = evQueue.getEvent();
-                Console.WriteLine("zdarzenie: {0} o czasie {1}+ kawałek Stream {2}",ev.eventType, currentTime + streams[ev.numberofStream].getRandLength(), ev.numberofStream);
+                Console.WriteLine("zdarzenie: {0} o czasie {1}, Stream {2}",ev.eventType, currentTime , ev.numberofStream);
                 currentTime = ev.eventTime;
                 Element el = new Element(Convert.ToInt32((currentTime * doubleToInt) - 0.5), ev.streamSize);
 
@@ -107,7 +106,7 @@ namespace AISDE1
                             busyChannels += el.getStreamSize();
                             evQueue.addEvent(EventType.Departure, currentTime + streams[ev.numberofStream].getRandLength(), el.getStreamSize(), ev.numberofStream);
                         }
-                        else if (priorityQueue.getNumberOfElements() < queueSize)
+                        else if (priorityQueue.getNumberOfElements() < queueSize-1)
                         {
                             //dodaj do kolejki
                             inQueue++;

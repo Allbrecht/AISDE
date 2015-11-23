@@ -60,7 +60,26 @@ namespace AISDE1
 
         public Element getLowest()
         {
-            throw new NotImplementedException();
+            int lowestKeyIndex = 0;
+            if (index == -1)
+            {
+                return null;
+            }
+            else
+            {
+               
+                int lowestKey = myArray[0].getKey();
+                for (int tmp = 1; tmp <= index; tmp++) //sprawdza wszystkich po kolei
+                {
+                    if (lowestKey > myArray[tmp].getKey())
+                    {
+                        lowestKey = myArray[tmp].getKey();
+                        lowestKeyIndex = tmp;
+                    }
+                }
+            }
+            return myArray[lowestKeyIndex];
         }
+
     }
 }
