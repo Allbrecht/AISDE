@@ -39,8 +39,8 @@ namespace AISDE1
 
             //zapisanie wyników
             makeSimulationOutput(simulationOutputsHeap, simulationOutputsList);
-            Console.WriteLine("wcisnij klawisz");
-            Console.ReadKey();
+            //Console.WriteLine("wcisnij klawisz");
+            //Console.ReadKey();
         }
 
         private void setConfiguration(double[] config)
@@ -53,16 +53,22 @@ namespace AISDE1
         {
             FileMaker fm = new FileMaker(simOutput);
             fm.writeString("++++HEAP++++");
-            
+
             fm.writeString("ilosc utraconych elementów: " + simVariablesHeap[0]);
             fm.writeString("srednia zajętość kanału: " + simVariablesHeap[1]);
             fm.writeString("srednia zajetosc kolejki: " + simVariablesHeap[2]);
-            fm.writeString("prawdopodobieństwo utraty pakietu str1: " + simVariablesHeap[3]);
+            if (-10 != simVariablesHeap[3])
+                fm.writeString("stosunek utraconych pakietów do obsłużonych str1: " + simVariablesHeap[3]);
+            else
+                fm.writeString("stosunek utraconych pakietów do obsłużonych str1: ERR - nie można dzielić przez zero");
             fm.writeString("sredni czas przebywania w systemie str1: " + simVariablesHeap[4]);
-            fm.writeString("prawdopodobieństwo utraty pakietu str2: " + simVariablesHeap[5]);
+            if (-10 != simVariablesHeap[5])
+                fm.writeString("stosunek utraconych pakietów do obsłużonych str2: " + simVariablesHeap[5]);
+            else
+                fm.writeString("stosunek utraconych pakietów do obsłużonych str2: ERR - nie można dzielić przez zero");
             fm.writeString("sredni czas przebywania w systemie str2: " + simVariablesHeap[6]);
             fm.writeString("utracone str1: " + simVariablesHeap[7]);
-            fm.writeString("obsluzone str2: " + simVariablesHeap[8]);
+            fm.writeString("obsluzone str1: " + simVariablesHeap[8]);
             fm.writeString("utracone str2: " + simVariablesHeap[9]);
             fm.writeString("obsluzone str2: " + simVariablesHeap[10]);
 
@@ -70,12 +76,12 @@ namespace AISDE1
             fm.writeString("ilosc utraconych elementów: " + simVariablesList[0]);
             fm.writeString("srednia zajętość kanału: " + simVariablesList[1]);
             fm.writeString("srednia zajetosc kolejki: " + simVariablesList[2]);
-            fm.writeString("prawdopodobieństwo utraty pakietu str1: " + simVariablesList[3]);
+            fm.writeString("stosunek utraconych pakietów do obsłużonych str1: " + simVariablesList[3]);
             fm.writeString("sredni czas przebywania w systemie str1: " + simVariablesList[4]);
-            fm.writeString("prawdopodobieństwo utraty pakietu str2: " + simVariablesList[5]);
+            fm.writeString("stosunek utraconych pakietów do obsłużonych str2: " + simVariablesList[5]);
             fm.writeString("sredni czas przebywania w systemie str2: " + simVariablesList[6]);
             fm.writeString("utracone str1: " + simVariablesList[7]);
-            fm.writeString("obsluzone str2: " + simVariablesList[8]);
+            fm.writeString("obsluzone str1: " + simVariablesList[8]);
             fm.writeString("utracone str2: " + simVariablesList[9]);
             fm.writeString("obsluzone str2: " + simVariablesList[10]);
 
@@ -109,12 +115,12 @@ namespace AISDE1
             int inService = 0;
             int inQueue = 0;
             int lostElements = 0;
-            int doubleToInt = 100000;
+            int doubleToInt = 1000000;
 
             //Zajętość systemu:
             double averageChannelOccupancySum = 0;
             double averageQueueOccupancySum = 0;
-            double inSystemTime=0;
+            double inSystemTime = 0;
 
             for (int tmp = 0; tmp < 2; tmp++)
             {
@@ -124,14 +130,14 @@ namespace AISDE1
             {
                 Event ev = new Event();
                 ev = evQueue.getEvent();
-               Console.WriteLine("zdarzenie: {0} o czasie {1}, Stream {2}",ev.eventType, currentTime , ev.numberOfStream);
-                inSystemTime = ev.eventTime -currentTime;//czas od ostatniego zdarzenia
+                //Console.WriteLine("zdarzenie: {0} o czasie {1}, Stream {2}",ev.eventType, currentTime , ev.numberOfStream);
+                inSystemTime = ev.eventTime - currentTime;//czas od ostatniego zdarzenia
 
                 currentTime = ev.eventTime;
 
                 averageChannelOccupancySum += inSystemTime * busyChannels / channelSize;
                 averageQueueOccupancySum += inSystemTime * inQueue / queueSize;
-                
+
                 Element el = new Element(Convert.ToInt32((currentTime * doubleToInt) - 0.5), ev.streamSize);
 
                 switch (ev.eventType)
@@ -190,9 +196,15 @@ namespace AISDE1
             outs[0] = lostElements;
             outs[1] = averageChannelOccupancySum / totalTime; //srednia zajętość kanału
             outs[2] = averageQueueOccupancySum / totalTime;//srednia zajetosc kolejki
-            outs[3] = streams[0].lost / streams[1].served;//prawdopodobieństwo utraty pakietu
+            if (0 != streams[1].served)//nie dziel przez zero
+                outs[3] = streams[0].lost / streams[1].served;//prawdopodobieństwo utraty pakietu
+            else
+                outs[5] = -10;
             outs[4] = streams[0].inSystemTime / totalTime; // sredni czas przebywania w systemie
-            outs[5] = streams[1].lost / streams[1].served;
+            if (0 != streams[1].served)
+                outs[5] = streams[1].lost / streams[1].served;
+            else
+                outs[5] = -10;
             outs[6] = streams[1].inSystemTime / totalTime; // sredni czas przebywania w systemie
             outs[7] = streams[0].lost;
             outs[8] = streams[0].served;

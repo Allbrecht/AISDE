@@ -26,6 +26,7 @@ namespace AISDE1
             else if (index == 0)
             {
                 myArray[0] = null;
+                index--;
             }
             else
             {

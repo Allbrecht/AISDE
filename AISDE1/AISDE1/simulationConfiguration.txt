@@ -1,4 +1,4 @@
-priorityQueueLength 20
+priorityQueueLength 5
 numberOfChannels 100
 lambdaTelLength 0,83 
 lambdaDistanceBetweenConnetions 1 

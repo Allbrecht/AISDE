@@ -59,5 +59,13 @@ namespace AISDE.test
             Assert.AreEqual(3, heap.getKey(5));
             
         }
+        [TestMethod]
+        public void deleteMinToZeroTest()
+        {
+            heap.insert(element1);
+            heap.deleteMin();
+            heap.insert(element1);
+            Assert.AreEqual(1, heap.getKey(0));
+        }
     }
 }
