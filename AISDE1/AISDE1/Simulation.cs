@@ -110,12 +110,12 @@ namespace AISDE1
             }
 
             double currentTime = 0;
-            double totalTime = 1600;
+            double totalTime = 10000;
             int busyChannels = 0;
             int inService = 0;
             int inQueue = 0;
             int lostElements = 0;
-            int doubleToInt = 1000000;
+            int doubleToInt = 10000;
 
             //Zajętość systemu:
             double averageChannelOccupancySum = 0;
@@ -137,7 +137,7 @@ namespace AISDE1
 
                 averageChannelOccupancySum += inSystemTime * busyChannels / channelSize;
                 averageQueueOccupancySum += inSystemTime * inQueue / queueSize;
-
+                
                 Element el = new Element(Convert.ToInt32((currentTime * doubleToInt) - 0.5), ev.streamSize);
 
                 switch (ev.eventType)
@@ -196,13 +196,13 @@ namespace AISDE1
             outs[0] = lostElements;
             outs[1] = averageChannelOccupancySum / totalTime; //srednia zajętość kanału
             outs[2] = averageQueueOccupancySum / totalTime;//srednia zajetosc kolejki
-            if (0 != streams[1].served)//nie dziel przez zero
-                outs[3] = streams[0].lost / streams[1].served;//prawdopodobieństwo utraty pakietu
+            if (0 != streams[0].served)//nie dziel przez zero
+                outs[3] = Convert.ToDouble(streams[0].lost) / (Convert.ToDouble(streams[0].served+ Convert.ToDouble(streams[0].lost)));//prawdopodobieństwo utraty pakietu
             else
                 outs[5] = -10;
             outs[4] = streams[0].inSystemTime / totalTime; // sredni czas przebywania w systemie
             if (0 != streams[1].served)
-                outs[5] = streams[1].lost / streams[1].served;
+                outs[5] = Convert.ToDouble(streams[1].lost) / (Convert.ToDouble(streams[1].served + Convert.ToDouble(streams[1].lost)));//prawdopodobieństwo utraty pakietu
             else
                 outs[5] = -10;
             outs[6] = streams[1].inSystemTime / totalTime; // sredni czas przebywania w systemie

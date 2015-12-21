@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISDE1", "AISDE1\AISDE1.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISDE.test", "AISDE.test\AISDE.test.csproj", "{0EE8670C-152B-4BB1-9D45-AA2883E1EA24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISDE2", "AISDE2\AISDE2.csproj", "{8890A14D-FE64-4E3B-B1A4-B17B0A5A58F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0EE8670C-152B-4BB1-9D45-AA2883E1EA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EE8670C-152B-4BB1-9D45-AA2883E1EA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EE8670C-152B-4BB1-9D45-AA2883E1EA24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8890A14D-FE64-4E3B-B1A4-B17B0A5A58F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8890A14D-FE64-4E3B-B1A4-B17B0A5A58F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8890A14D-FE64-4E3B-B1A4-B17B0A5A58F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8890A14D-FE64-4E3B-B1A4-B17B0A5A58F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

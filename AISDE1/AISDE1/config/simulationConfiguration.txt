@@ -1,8 +1,8 @@
-priorityQueueLength 7
-numberOfChannels 50
-lambdaTelLength 3,2
-lambdaDistanceBetweenConnetions 3,2 
-streamSize 30 
-lambdaTelLength 1,2 
-lambdaDistanceBetweenConnetions 1,2 
-streamSize 5
+priorityQueueLength 5
+numberOfChannels 30
+lambdaTelLength 1
+lambdaDistanceBetweenConnetions 30 
+streamSize 1 
+lambdaTelLength 100000 
+lambdaDistanceBetweenConnetions 0,01 
+streamSize 1

@@ -37,7 +37,7 @@ namespace AISDE1
 
             Console.WriteLine("List " + list);
             Console.WriteLine("Heap " + heap);
-            Console.ReadKey();
+            //Console.ReadKey();
         }
         
     
