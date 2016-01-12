@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AISDE2
 {
@@ -10,8 +7,7 @@ namespace AISDE2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("hello world");
-            Console.ReadKey();
+            NetworkTest nt = new NetworkTest();
         }
     }
 }
