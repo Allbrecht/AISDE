@@ -14,7 +14,8 @@ namespace AISDE2
             int[] testVariables = new int[Variables.MAX_ARRAY_LENGTH];
             testVariables = fg.readTestConfig(Variables.CONFIG_TEST_FILE);
 
-            printConfig(testVariables);
+            //printConfig(testVariables);
+
 
         }
 
