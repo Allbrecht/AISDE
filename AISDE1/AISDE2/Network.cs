@@ -66,5 +66,15 @@ namespace AISDE2
         {
             throw new NotImplementedException();
         }
+
+        public List<Link> returnLinkList()
+        {
+            return link;
+        }
+
+        public List<Node> returnNodeList()
+        {
+            return node;
+        }
     }
 }
