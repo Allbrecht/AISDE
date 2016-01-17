@@ -13,7 +13,7 @@ namespace AISDE2
             file += ".txt";
 
             //filenotfoundxeception nie obsłużony
-            string dir = Path.GetDirectoryName(
+            string dir = System.IO.Path.GetDirectoryName(
             System.Reflection.Assembly.GetExecutingAssembly().Location);
             dir = Directory.GetParent(dir).FullName;
             dir = Directory.GetParent(dir).FullName; // dwa razy bo cofamy się o dwa foldery do tyłu

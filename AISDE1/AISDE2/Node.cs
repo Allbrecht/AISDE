@@ -3,8 +3,8 @@ namespace AISDE2
 {
     class Node
     {
-        private int name { get; set; }
-        private double flag { get; set; }
+        private int name;
+        private double flag; 
 
         public Node(int name)
         {
@@ -14,6 +14,24 @@ namespace AISDE2
         {
             this.flag = flag;
             this.name = name;
+        }
+
+        public int getName()
+        {
+            return name;
+        }
+        public void setName(int name)
+        {
+            this.name = name;
+        }
+
+        public double getFlag()
+        {
+            return flag;
+        }
+        public void setflag(double flag)
+        {
+            this.flag = flag;
         }
     }
 }

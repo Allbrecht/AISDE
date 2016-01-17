@@ -6,12 +6,11 @@ namespace AISDE2
     {
 
         private Random rnd;
-        private double lambda;
         
-        public RandGenerator(double lmbd) 
+        public RandGenerator() 
         {
             rnd = new Random();
-            lambda = lmbd;
+            
         }
 
        

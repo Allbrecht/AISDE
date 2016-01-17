@@ -7,7 +7,7 @@ namespace AISDE2
         private List<Link> links;
         private Node A;
         private Node B;
-        private double cost;
+        private double cost; //zła nazwa, u nas ścieżki najgrubsze.
 
         public Path(Node A, Node B, double cost)
         {

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="FileGetter.cs" />
     <Compile Include="FileMaker.cs" />
+    <Compile Include="IFindPath.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="NetworkTest.cs" />
