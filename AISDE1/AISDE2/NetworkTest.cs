@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace AISDE2
 {
@@ -25,7 +26,20 @@ namespace AISDE2
                 network.addConnection(testVariables[++nodeIndex], testVariables[++nodeIndex], rnd.getRandom());
             }
             network.printNetwork();
+            Dijikstra dij = new Dijikstra(network.getNode(), network.getLinks());
+            List<Node> nodes = dij.findShortestPath(new Node(1));
 
+            printPaths(nodes);
+        }
+
+        private void  printPaths (List<Node> paths)
+        {
+            for (int tmp = 0;tmp < paths.Count; tmp++)
+            {
+
+                Console.WriteLine(paths[tmp].getName() + " " + paths[tmp].getFlag() );
+            }
+            Console.ReadKey();
         }
 
         private void printConfig(int[] testVariables) //metoda pomocnicza

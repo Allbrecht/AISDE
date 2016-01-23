@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dijkstra.cs" />
     <Compile Include="FileGetter.cs" />
     <Compile Include="FileMaker.cs" />
+    <Compile Include="Floyd.cs" />
     <Compile Include="IFindPath.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Network.cs" />

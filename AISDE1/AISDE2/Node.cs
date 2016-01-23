@@ -29,7 +29,7 @@ namespace AISDE2
         {
             return flag;
         }
-        public void setflag(double flag)
+        public void setFlag(double flag)
         {
             this.flag = flag;
         }

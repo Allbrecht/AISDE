@@ -27,13 +27,13 @@ namespace AISDE2
             }
             for(int i=0; i < links.Count; i++)
             {
-                graph[links[i].getA(), links[i].getB()] = links[i].getCost();
+                graph[links[i].getAName(), links[i].getBName()] = links[i].getCost();
             }
             shortest_paths = graph;
            // findShortestPath();
         }
 
-        public void floydTest()
+       /* public void floydTest()
         {
             Console.Write("\n");
             Floyd floyd = new Floyd(network);
@@ -44,7 +44,7 @@ namespace AISDE2
             floyd.writeShortestPaths();
             Console.ReadKey();
 
-        }
+        }*/
 
         public void findShortestPaths()
         {

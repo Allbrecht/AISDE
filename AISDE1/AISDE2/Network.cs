@@ -47,9 +47,9 @@ namespace AISDE2
             Console.WriteLine("Links:");
             for (int tmp = 0; tmp < link.Count; tmp++)
             {
-                Console.WriteLine(link[tmp].getA() + " " + link[tmp].getB()+" " + this.link[tmp].getCost());
+                Console.WriteLine(link[tmp].getAName() + " " + link[tmp].getBName()+" " + this.link[tmp].getCost());
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         public void findPathOneToOne(int algorithm, Node A, Node B)
@@ -76,5 +76,14 @@ namespace AISDE2
         {
             return node;
         }
+        public List<Node> getNode()
+        {
+            return node;
+        }
+        public List<Link> getLinks()
+        {
+            return link;
+        }
+
     }
 }

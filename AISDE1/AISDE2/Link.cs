@@ -24,14 +24,17 @@ namespace AISDE2
         {
             return cost;
         }
-        public int getA()
+        public int getAName()
         {
             return A.getName();
         }
-        public int getB()
+        public int getBName()
         {
             return B.getName();
         }
-
+        public Node getB()
+        {
+            return B;
+        }
     }
 }
