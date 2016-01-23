@@ -5,17 +5,20 @@ namespace AISDE2
     class Path
     {
         private List<Link> links;
-        private Node A;
-        private Node B;
-        private double cost; //zła nazwa, u nas ścieżki najgrubsze.
 
-        public Path(Node A, Node B, double cost)
+        public Path()
         {
-            this.A = A;
-            this.B = B;
-            this.cost = cost;
+            links = new List<Link>();
         }
-        public double getCost()
+
+        public Path(int v1, int v2)
+        {
+            links = new List<Link>();
+            addLink(v1, v2);
+        }
+
+
+        /*public double getCost()
         {
             double counter = 0;
             for(int tmp = 0; tmp<links.Count;tmp++)
@@ -23,6 +26,14 @@ namespace AISDE2
                 counter += links[tmp].getCost();
             }
             return counter;
+        }*/
+        public void addLink(int A, int B)
+        {
+            links.Add(new Link(A, B));  
+        }
+        public List<Link> getLinks()
+        {
+            return links;
         }
 
 

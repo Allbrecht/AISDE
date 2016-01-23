@@ -7,11 +7,13 @@ namespace AISDE2
     {
         private List<Link> links;
         private List<Node> nodes;
+        private List<Path> paths;
 
         public Dijikstra(List<Node> nodes, List<Link> links)
         {
             this.nodes = nodes;
             this.links = links;
+            paths = new List<Path>(nodes.Count);
         }
 
         public List<Node> findShortestPath(Node source)
@@ -21,7 +23,7 @@ namespace AISDE2
             int[] P = new int[nodes.Count+1]; //indeks węzła, który poprzednikiem węzła i na najkrótszej ścieżce od źródła  do i  
             for (int tmp = 0; tmp < nodes.Count; tmp++)
             {
-                nodes[tmp].setFlag(Int32.MaxValue);
+                nodes[tmp].setFlag(Double.MaxValue);
                 P[tmp] = 0;
             }
             Q.Add(source);
@@ -70,12 +72,58 @@ namespace AISDE2
                     }
                 }
             }
+            savePaths(P, nodes, source);
             return nodes;
         }
 
-        internal Path findBigestPath()
+        private void savePaths(int[] P, List<Node> nodes, Node source)
         {
-            throw new NotImplementedException();
+            for(int tmp = 0; tmp < nodes.Count; tmp++)
+            {
+                Node actualNode = nodes[tmp];
+                if(actualNode.getName() == source.getName())
+                {
+                    paths.Add(new Path(actualNode.getName(), actualNode.getName()));
+                }
+                
+                while ((actualNode.getName() != source.getName())&&(actualNode.getName() != 0))
+                {
+                    try
+                    {
+                        paths[tmp].addLink(actualNode.getName(), P[actualNode.getName()]);
+                    }
+                    catch (Exception ex) //tutaj słabo rozwiązany problem 
+                    {
+                        paths.Add(new Path(actualNode.getName(), P[actualNode.getName()]));
+                    }  
+                    actualNode = nodes.Find(x => x.getName() == P[actualNode.getName()]);
+                    if (null == actualNode)
+                    {
+                        actualNode = new Node(0);
+                    }
+                }
+            }
+        }
+        public void printPaths()
+        {
+            Console.WriteLine(" ");
+            for (int tmp = 0; tmp < paths.Count; tmp++)
+            {
+               List<Link> links = paths[tmp].getLinks();
+                for(int tmp2 =0; tmp2<links.Count;tmp2++)
+                {
+                    if (0 != links[tmp2].getBName())
+                    { 
+                        Console.Write(links[tmp2].getAName() + "<=" + links[tmp2].getBName() + " ");
+                    }
+                    else
+                    {
+                        Console.Write(links[tmp2].getAName() +" "+ Variables.NO_PATH_INFO);
+                    }
+                }
+                Console.WriteLine(" ");
+            }
+           // Console.ReadKey();
         }
     }
 }

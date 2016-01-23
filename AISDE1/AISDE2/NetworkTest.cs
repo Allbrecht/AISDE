@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AISDE2
 {
@@ -8,7 +9,9 @@ namespace AISDE2
     {
         public NetworkTest()
         {
-
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            Console.WriteLine(Variables.START_INFO);
             //wczytaj konfiguracje
             FileGetter fg = new FileGetter();
             int[] testVariables = new int[Variables.MAX_ARRAY_LENGTH];
@@ -17,29 +20,51 @@ namespace AISDE2
 
             //zrób graf
             RandGenerator rnd = new RandGenerator();
-            Network network = new Network();
-            int numberOfLinks = testVariables[1];
-            int nodeIndex = 1;
-            //for(int tmp =0; tmp<Variables.A; tmp++){
-            for (int tmp2 = 0; tmp2 < numberOfLinks; tmp2++)
-            {
-                network.addConnection(testVariables[++nodeIndex], testVariables[++nodeIndex], rnd.getRandom());
-            }
-            network.printNetwork();
-            Dijikstra dij = new Dijikstra(network.getNode(), network.getLinks());
-            List<Node> nodes = dij.findShortestPath(new Node(1));
 
-            printPaths(nodes);
+            for (int tmp = 0; tmp < Variables.A; tmp++)
+            {
+                Network network = null;
+                int numberOfLinks = testVariables[1];
+                int nodeIndex = 1;
+           
+                network = new Network();
+                for (int tmp2 = 0; tmp2 < numberOfLinks; tmp2++)
+                {
+                    network.addConnection(testVariables[++nodeIndex], testVariables[++nodeIndex], rnd.getRandom());
+                }
+                //network.printNetwork();
+
+                //Dijkstra
+                Dijikstra dij = new Dijikstra(network.getNode(), network.getLinks());
+                List<Node> nodes = dij.findShortestPath(new Node(Variables.nodeSource));
+                //printNodes(nodes);
+                //dij.printPaths();
+
+                //Kruskal
+                
+            }
+            watch.Stop();
+            Console.WriteLine(watch.Elapsed.ToString());
+            Console.ReadKey();
+            
         }
 
-        private void  printPaths (List<Node> paths)
-        {
-            for (int tmp = 0;tmp < paths.Count; tmp++)
-            {
+        
 
-                Console.WriteLine(paths[tmp].getName() + " " + paths[tmp].getFlag() );
+        private void  printNodes (List<Node> nodes)
+        {
+            for (int tmp = 0;tmp < nodes.Count; tmp++)
+            {
+                if (Double.MaxValue != nodes[tmp].getFlag())
+                {
+                    Console.WriteLine(nodes[tmp].getName() + " " + nodes[tmp].getFlag());
+                }
+                else
+                {
+                    Console.WriteLine(nodes[tmp].getName() + " "+ Variables.NO_PATH_INFO); 
+                }
             }
-            Console.ReadKey();
+           // Console.ReadKey();
         }
 
         private void printConfig(int[] testVariables) //metoda pomocnicza
@@ -49,7 +74,7 @@ namespace AISDE2
                 Console.WriteLine(testVariables[tmp]);
             }
             
-            Console.ReadKey();
+           // Console.ReadKey();
         }
         
     }

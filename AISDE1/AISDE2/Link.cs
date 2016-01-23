@@ -14,6 +14,11 @@ namespace AISDE2
             this.B = new Node(B);
             this.cost = cost;
         }
+        public Link(int A, int B)
+        {
+            this.A = new Node(A);
+            this.B = new Node(B);
+        }
         public Link(Node A, Node B, double cost) //tego raczej nie będziemy używać
         {
             this.A = A;
