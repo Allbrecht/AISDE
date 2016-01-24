@@ -47,6 +47,12 @@ namespace AISDE2
             Console.WriteLine(watch.Elapsed.ToString());
             Console.ReadKey();
             
+            //zapisanie wyników
+            FileMaker fm = new FileMaker(Variables.TEST_FILE_OUT);
+            fm.writeString("całkowity czas: ");
+            fm.writeString(watch.Elapsed.ToString());
+            fm.close();
+            
         }
 
         
