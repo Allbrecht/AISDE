@@ -10,12 +10,13 @@ namespace AISDE2
         public static int DEFAULT_NODES_LENGTH = 50;
         public static int DEFAULT_LINKS_LENGTH =100;
 
-        public static int A = 100; //ile razy ma się wykonać pętla
-        internal static int nodeSource = 3;
+        public static int A = 2; //ile razy ma się wykonać pętla
+        internal static int nodeSource = 1;
 
         public static string NO_PATH_INFO = "Nie ma połączenia z source";
 
         public static string START_INFO = "Start Symulacji, czekaj ...";
+        internal static int nodeDestination = 5;
 
         public enum ALGORITHM { FLOYD, DIJIKSTRA};
     }

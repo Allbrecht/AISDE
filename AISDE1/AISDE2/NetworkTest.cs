@@ -30,16 +30,19 @@ namespace AISDE2
                 network = new Network();
                 for (int tmp2 = 0; tmp2 < numberOfLinks; tmp2++)
                 {
-                    network.addConnection(testVariables[++nodeIndex], testVariables[++nodeIndex], rnd.getRandom());
+                    network.addConnection(testVariables[++nodeIndex], testVariables[++nodeIndex], rnd.getRandom());//
                 }
                 //network.printNetwork();
 
                 //Dijkstra
                 Dijikstra dij = new Dijikstra(network.getNode(), network.getLinks());
-                List<Node> nodes = dij.findShortestPath(new Node(Variables.nodeSource));
-                //printNodes(nodes);
-                //dij.printPaths();
-
+                List<Node> nodes = dij.findShortestPathOneToAll(new Node(Variables.nodeSource));
+                
+                printNodes(nodes);
+                dij.printPaths();
+                Console.ReadKey();
+               dij.findShortestPathOneToOne(new Node(Variables.nodeSource), new Node(Variables.nodeDestination)).writePath();
+                Console.ReadKey();
                 //Kruskal
                 
             }

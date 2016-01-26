@@ -16,8 +16,10 @@ namespace AISDE2
             paths = new List<Path>(nodes.Count);
         }
 
-        public List<Node> findShortestPath(Node source)
+        public List<Node> findShortestPathOneToAll(Node source)
         {
+            paths.Clear(); // do czyszczenia zasobów
+
             List<Node> S = new List<Node>(); //znajdują się wierzchołki (węzły) grafu o już ustalonej najkrótszej ścieżce ze źródła, dalej nie będą już rozpatrywane w algorytmie
             List<Node> Q = new List<Node>(); //znajdują się wierzchołki, do których „dotarł” już algorytm, ale nie możemy jeszcze określić, czy znaleziono do nich najkrótszą ścieżkę ze źródła
             int[] P = new int[nodes.Count+1]; //indeks węzła, który poprzednikiem węzła i na najkrótszej ścieżce od źródła  do i  
@@ -125,5 +127,21 @@ namespace AISDE2
             }
            // Console.ReadKey();
         }
+
+        public Path findShortestPathOneToOne(Node source, Node destination)
+        {
+            List<Node> listNodes = findShortestPathOneToAll(source);
+            Path path = null;
+            for (int tmp = 0; tmp < paths.Count; tmp++)
+            {
+                List<Link> links = paths[tmp].getLinks();
+                if (links[0].getAName() == destination.getName())
+                    path = paths[tmp];
+
+            }
+            return path;
+
+        }
     }
+
 }

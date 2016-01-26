@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AISDE2
 {
@@ -34,6 +35,14 @@ namespace AISDE2
         public List<Link> getLinks()
         {
             return links;
+        }
+       
+        public void writePath()
+        {
+            for(int tmp = 0; tmp < links.Count; tmp++)
+            {
+                Console.Write(links[tmp].getAName()+" " + links[tmp].getBName() );
+            }
         }
 
 
