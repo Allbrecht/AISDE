@@ -26,7 +26,7 @@ namespace AISDE2
                 Network network = null;
                 int numberOfLinks = testVariables[1];
                 int nodeIndex = 1;
-           
+
                 network = new Network();
                 for (int tmp2 = 0; tmp2 < numberOfLinks; tmp2++)
                 {
@@ -37,11 +37,17 @@ namespace AISDE2
                 //Dijkstra
                 Dijikstra dij = new Dijikstra(network.getNode(), network.getLinks());
                 List<Node> nodes = dij.findShortestPathOneToAll(new Node(Variables.nodeSource));
-                
-                printNodes(nodes);
-                dij.printPaths();
+
+                //printNodes(nodes);
+                // dij.printPaths();
                 Console.ReadKey();
-               dij.findShortestPathOneToOne(new Node(Variables.nodeSource), new Node(Variables.nodeDestination)).writePath();
+                Path path = dij.findShortestPathOneToOne(new Node(Variables.nodeSource), new Node(Variables.nodeDestination));
+                List<Link> links = path.getLinks();
+                path.writePath();
+                for (int tmp3 = 0; tmp3 < links.Count; tmp3++)
+                {
+                    Console.WriteLine(links[tmp3].getCost());
+                }
                 Console.ReadKey();
                 //Kruskal
                 

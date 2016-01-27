@@ -64,7 +64,7 @@ namespace AISDE2
                         {
 
                             Node nodeB = nodes.Find(x => x.getName() == links[tmp].getB().getName());
-                            if (node.getFlag() + links[tmp].getCost()< nodeB.getFlag())//parts.Find(x => x.PartName.Contains("seat")));
+                            if (node.getFlag() + links[tmp].getCost()< nodeB.getFlag())
                             {
                                 nodeB.setFlag(node.getFlag() + links[tmp].getCost());
                                 P[links[tmp].getB().getName()] = node.getName();
@@ -139,6 +139,26 @@ namespace AISDE2
                     path = paths[tmp];
 
             }
+            List<Link> listLink = path.getLinks();
+            for(int tmp = 0; tmp < listLink.Count; tmp++)
+            {
+                List<Link> linkA = new List<Link>();
+                for(int tmpA = 0; tmpA < links.Count; tmpA++)
+                {
+                    if(links[tmpA].getAName() == listLink[tmp].getBName())
+                    {
+                        linkA.Add(links[tmpA]);
+                    }
+                }
+                for (int tmpB = 0; tmpB < linkA.Count; tmpB++)
+                {
+                    if(linkA[tmpB].getBName()== listLink[tmp].getAName())
+                    {
+                        listLink[tmp].setCost(linkA[tmpB].getCost());
+                    }
+                }
+            }
+            path.setLinks(listLink);
             return path;
 
         }

@@ -41,5 +41,9 @@ namespace AISDE2
         {
             return B;
         }
+        public void setCost(double cost)
+        {
+            this.cost = cost;
+        }
     }
 }

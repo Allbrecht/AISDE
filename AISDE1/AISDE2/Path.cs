@@ -36,7 +36,10 @@ namespace AISDE2
         {
             return links;
         }
-       
+       public void setLinks(List<Link> list)
+        {
+            this.links = list;
+        }
         public void writePath()
         {
             for(int tmp = 0; tmp < links.Count; tmp++)

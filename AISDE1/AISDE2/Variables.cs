@@ -16,7 +16,7 @@ namespace AISDE2
         public static string NO_PATH_INFO = "Nie ma połączenia z source";
 
         public static string START_INFO = "Start Symulacji, czekaj ...";
-        internal static int nodeDestination = 5;
+        internal static int nodeDestination = 3;
 
         public enum ALGORITHM { FLOYD, DIJIKSTRA};
     }
